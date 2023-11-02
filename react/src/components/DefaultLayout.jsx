@@ -4,7 +4,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
 
 export default function DefaultLayout() {
-    const { user, token, setUser, setToken } = useStateContext();
+    const { user, token, setUser, setToken, notification } = useStateContext();
 
     if (!token) {
         return <Navigate to="/login" />;
@@ -19,10 +19,10 @@ export default function DefaultLayout() {
     };
 
     useEffect(() => {
-        axiosClient.get("/users").then(({ data }) => {
+        axiosClient.get("/user").then(({ data }) => {
             setUser(data);
         });
-    });
+    }, []);
 
     return (
         <div id="defaultLayout">
@@ -34,8 +34,8 @@ export default function DefaultLayout() {
                 <header>
                     <div>Header</div>
                     <div>
-                        {user.name}
-                        <a href="#" onClick={onLogout} className="btn-logout">
+                        {user.name} &nbsp; &nbsp;
+                        <a onClick={onLogout} className="btn-logout" href="#">
                             Logout
                         </a>
                     </div>
@@ -43,6 +43,9 @@ export default function DefaultLayout() {
                 <main>
                     <Outlet />
                 </main>
+                {notification && (
+                    <div className="notification">{notification}</div>
+                )}
             </div>
         </div>
     );

@@ -37,7 +37,7 @@ export default function UserForm() {
         ev.preventDefault();
         if (user.id) {
             axiosClient
-                .put(`/users/${user.id}`, user)
+                .post(`/update/${user.id}`, user)
                 .then(() => {
                     setNotification("User was successfully updated");
                     navigate("/users");
@@ -50,7 +50,7 @@ export default function UserForm() {
                 });
         } else {
             axiosClient
-                .post("/users", user)
+                .post("/signup", user)
                 .then(() => {
                     setNotification("User was successfully created");
                     navigate("/users");
